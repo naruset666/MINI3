@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://chhfb8klr50rq"]
+
+[ext_resource type="Script" uid="uid://du0sbxdj1ivte" path="res://SCRIPT/player.gd" id="1_pvtcc"]
+[ext_resource type="PackedScene" uid="uid://cm7nlf1s66q8q" path="res://Assets Pack OLD/Sword.glb" id="2_i74cr"]
+[ext_resource type="AudioStream" uid="uid://mln2yvk0x5gt" path="res://Assets Pack OLD/Audio/Sword swing.wav" id="3_c8fjm"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_s71dt"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pvtcc"]
+radius = 0.539551
+height = 2.17053
+
+[sub_resource type="Animation" id="Animation_c8fjm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("swordpoint:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.535816, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_i74cr"]
+resource_name = "swordswing"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("swordpoint:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.233333, 0.3, 0.366667, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.535816, 0), Vector3(0.214266, -0.54977, -0.129567), Vector3(0.214808, -0.553477, -0.131323), Vector3(-0.174963, -0.550719, 0.105744), Vector3(-0.230536, -0.558221, 0.141434), Vector3(0, -0.535816, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pbvhp"]
+_data = {
+&"RESET": SubResource("Animation_c8fjm"),
+&"swordswing": SubResource("Animation_i74cr")
+}
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_i74cr"]
+size = Vector3(0.998642, 2.59888, 0.975364)
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_pvtcc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.832054, 0)
+mesh = SubResource("CapsuleMesh_s71dt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.84137, 0)
+shape = SubResource("CapsuleShape3D_pvtcc")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59541, -0.366887)
+fov = 84.1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pbvhp")
+}
+
+[node name="swordpoint" type="Node3D" parent="."]
+transform = Transform3D(1.04042, 0, -0.617756, 0, 1.21, 0, 0.617756, 0, 1.04042, 0, -0.126215, 0)
+
+[node name="Sword" parent="swordpoint" instance=ExtResource("2_i74cr")]
+transform = Transform3D(-0.393218, 0.0134121, -1.14425, -0.521663, -1.07898, 0.166623, -1.0185, 0.547461, 0.356425, 0.180369, 1.50387, -1.6662)
+
+[node name="attcooldown" type="Timer" parent="."]
+
+[node name="AttArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AttArea"]
+transform = Transform3D(3.26, 0, 0, 0, 1.755, 0, 0, 0, 2.675, 0.73666, 1.8804, -1.345)
+shape = SubResource("BoxShape3D_i74cr")
+debug_color = Color(0.928427, 3.35953e-05, 0.664703, 0.42)
+
+[node name="ATTsfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_c8fjm")
+
+[connection signal="timeout" from="attcooldown" to="." method="_on_attcooldown_timeout"]
+[connection signal="body_entered" from="AttArea" to="." method="_on_att_area_body_entered"]
