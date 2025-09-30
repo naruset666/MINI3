@@ -1,0 +1,14 @@
+CollisionShape3D
+AudioStreamPlayer
+AudioStreamPlayer3D
+Area3D
+NavigationAgent3D
+NavigationRegion3D
+StaticBody3D
+CharacterBody3D
+Timer
+AnimationPlayer
+Node3D
+MultiMeshInstance3D
+SplitContainer
+DirectionalLight3D

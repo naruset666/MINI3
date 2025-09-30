@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://mln2yvk0x5gt"
+path="res://.godot/imported/Sword swing.wav-65a0d990f915754d0b4913c8c7a295cc.sample"
+
+[deps]
+
+source_file="res://MINI3/Assets Pack OLD/Audio/Sword swing.wav"
+dest_files=["res://.godot/imported/Sword swing.wav-65a0d990f915754d0b4913c8c7a295cc.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
